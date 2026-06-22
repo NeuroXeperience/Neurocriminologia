@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Neurocriminologia — Quando o Cérebro e o Crime se Encontram</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Crimson+Pro:ital,wght@0,300;0,600;1,300&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:       #05080f;
+      --deep:      #0a0f1e;
+      --navy:      #0d1b3e;
+      --cobalt:    #1a3a8f;
+      --royal:     #2255cc;
+      --sky:       #3b82f6;
+      --ice:       #93c5fd;
+      --ghost:     #dbeafe;
+      --white:     #f0f5ff;
+      --pulse:     #60a5fa;
+      --glow:      rgba(59,130,246,0.18);
+      --border:    rgba(59,130,246,0.22);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: var(--ink);
+      color: var(--white);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── HEADER / NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 18px 6vw;
+      background: rgba(5,8,15,0.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-size: 1rem; font-weight: 600; letter-spacing: .08em;
+      color: var(--ice); text-transform: uppercase;
+    }
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-links a {
+      color: var(--ghost); text-decoration: none; font-size: .85rem;
+      font-weight: 500; letter-spacing: .05em; transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--sky); }
+    .nav-credit {
+      font-size: .72rem; font-weight: 500; letter-spacing: .1em;
+      color: var(--ghost); opacity: .65;
+      border-left: 1px solid var(--border);
+      padding-left: 1.2rem; margin-left: .5rem;
+      transition: opacity .2s;
+    }
+    .nav-credit:hover { opacity: 1; }
+    .nav-credit span { color: var(--sky); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 120px 6vw 80px;
+      position: relative; overflow: hidden;
+      background: radial-gradient(ellipse 80% 70% at 50% 40%, #0d1b3e 0%, #05080f 65%);
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background:
+        radial-gradient(circle 600px at 20% 50%, rgba(26,58,143,.22) 0%, transparent 70%),
+        radial-gradient(circle 400px at 80% 30%, rgba(59,130,246,.12) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    /* brain scan SVG decoration */
+    .brain-deco {
+      position: absolute; right: 4vw; top: 50%;
+      transform: translateY(-50%);
+      width: min(420px, 42vw); opacity: .13;
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      font-size: .75rem; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--sky); font-weight: 500; margin-bottom: 1.2rem;
+    }
+    .hero-title {
+      font-family: 'Crimson Pro', serif;
+      font-size: clamp(2.6rem, 6vw, 5.2rem);
+      font-weight: 600; line-height: 1.1;
+      color: var(--white); max-width: 720px;
+    }
+    .hero-title em { color: var(--sky); font-style: italic; }
+    .hero-sub {
+      margin-top: 1.6rem; max-width: 560px;
+      font-size: clamp(1rem, 1.5vw, 1.15rem);
+      color: var(--ghost); font-weight: 300; line-height: 1.8;
+    }
+    .hero-cta {
+      margin-top: 2.8rem; display: flex; gap: 1rem; flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-block; padding: .75rem 1.8rem;
+      border-radius: 4px; font-size: .9rem; font-weight: 600;
+      letter-spacing: .04em; cursor: pointer;
+      text-decoration: none; transition: all .2s;
+    }
+    .btn-primary {
+      background: var(--royal); color: var(--white);
+      border: 1px solid var(--sky);
+    }
+    .btn-primary:hover { background: var(--sky); }
+    .btn-ghost {
+      background: transparent; color: var(--ice);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { border-color: var(--sky); color: var(--sky); }
+
+    /* stat strip */
+    .stat-strip {
+      margin-top: 4rem; display: flex; gap: 3rem; flex-wrap: wrap;
+    }
+    .stat { display: flex; flex-direction: column; }
+    .stat-num {
+      font-family: 'Crimson Pro', serif; font-size: 2.4rem;
+      font-weight: 600; color: var(--sky); line-height: 1;
+    }
+    .stat-label { font-size: .75rem; color: var(--ghost); letter-spacing: .07em; margin-top: .25rem; }
+
+    /* ── SECTIONS ── */
+    section { padding: 90px 6vw; }
+    .section-tag {
+      font-size: .72rem; letter-spacing: .18em; text-transform: uppercase;
+      color: var(--sky); font-weight: 500; margin-bottom: .8rem;
+    }
+    h2 {
+      font-family: 'Crimson Pro', serif;
+      font-size: clamp(1.9rem, 3.5vw, 2.9rem);
+      font-weight: 600; line-height: 1.2;
+      color: var(--white); margin-bottom: 1.2rem;
+    }
+    h2 span { color: var(--sky); }
+    .lead {
+      font-size: 1.05rem; color: var(--ghost); max-width: 680px;
+      line-height: 1.85; margin-bottom: 2.5rem;
+    }
+
+    /* divider */
+    .divider {
+      height: 1px; background: var(--border); margin: 0 6vw;
+    }
+
+    /* ── O QUE É ── */
+    .what-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2px;
+      margin-top: 2.5rem;
+    }
+    .what-card {
+      background: rgba(13,27,62,.5);
+      border: 1px solid var(--border);
+      padding: 2rem 2.2rem;
+      transition: background .25s;
+    }
+    .what-card:hover { background: rgba(26,58,143,.25); }
+    .what-card:first-child { border-radius: 8px 0 0 0; }
+    .what-card:nth-child(2) { border-radius: 0 8px 0 0; }
+    .what-card:nth-child(3) { border-radius: 0 0 0 8px; }
+    .what-card:last-child { border-radius: 0 0 8px 0; }
+    .card-icon { font-size: 1.6rem; margin-bottom: .8rem; }
+    .card-title { font-weight: 600; color: var(--ice); margin-bottom: .5rem; font-size: 1.05rem; }
+    .card-text { font-size: .9rem; color: var(--ghost); line-height: 1.75; }
+
+    /* ── COMO O CÉREBRO FUNCIONA ── */
+    .brain-section { background: rgba(10,15,30,.6); }
+    .brain-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+    .brain-part {
+      background: linear-gradient(135deg, rgba(13,27,62,.7) 0%, rgba(26,58,143,.15) 100%);
+      border: 1px solid var(--border);
+      border-radius: 8px; padding: 1.8rem;
+      position: relative; overflow: hidden;
+    }
+    .brain-part::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--cobalt), var(--sky));
+    }
+    .bp-label { font-size: .7rem; letter-spacing: .15em; text-transform: uppercase; color: var(--sky); margin-bottom: .5rem; }
+    .bp-name { font-size: 1.15rem; font-weight: 600; color: var(--white); margin-bottom: .7rem; }
+    .bp-text { font-size: .88rem; color: var(--ghost); line-height: 1.75; }
+
+    /* ── LINHA DO TEMPO ── */
+    .timeline { position: relative; margin-top: 3rem; padding-left: 2rem; }
+    .timeline::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+      width: 2px; background: linear-gradient(to bottom, var(--cobalt), var(--sky), transparent);
+    }
+    .tl-item { position: relative; padding-left: 2rem; margin-bottom: 2.8rem; }
+    .tl-dot {
+      position: absolute; left: -2.45rem; top: .3rem;
+      width: 14px; height: 14px; border-radius: 50%;
+      background: var(--sky); border: 2px solid var(--ink);
+      box-shadow: 0 0 10px var(--sky);
+    }
+    .tl-year { font-size: .75rem; letter-spacing: .12em; color: var(--sky); font-weight: 600; margin-bottom: .3rem; }
+    .tl-title { font-size: 1.05rem; font-weight: 600; color: var(--white); margin-bottom: .4rem; }
+    .tl-text { font-size: .9rem; color: var(--ghost); line-height: 1.75; max-width: 640px; }
+
+    /* ── EXEMPLOS INTERATIVOS ── */
+    .examples-section { background: rgba(10,15,30,.7); }
+    .cases-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem; margin-top: 2.5rem;
+    }
+    .case-card {
+      border: 1px solid var(--border);
+      border-radius: 10px; overflow: hidden;
+      background: rgba(13,27,62,.4);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .case-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(59,130,246,.15);
+    }
+    .case-header {
+      padding: 1.2rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: .8rem;
+    }
+    .case-badge {
+      font-size: .65rem; letter-spacing: .14em; text-transform: uppercase;
+      padding: .25rem .6rem; border-radius: 99px;
+      font-weight: 600;
+    }
+    .badge-real { background: rgba(59,130,246,.2); color: var(--sky); border: 1px solid rgba(59,130,246,.3); }
+    .badge-estudo { background: rgba(26,58,143,.3); color: var(--ice); border: 1px solid rgba(26,58,143,.4); }
+    .case-name { font-weight: 600; color: var(--white); font-size: .95rem; }
+    .case-body { padding: 1.4rem 1.5rem; }
+    .case-question { font-size: .78rem; color: var(--sky); letter-spacing: .05em; margin-bottom: .5rem; font-weight: 600; }
+    .case-text { font-size: .88rem; color: var(--ghost); line-height: 1.75; }
+    .case-finding {
+      margin-top: 1rem; padding: .8rem 1rem;
+      background: rgba(59,130,246,.08); border-left: 3px solid var(--sky);
+      border-radius: 0 4px 4px 0; font-size: .82rem; color: var(--ice);
+    }
+
+    /* ── ADICIONAR EXEMPLO ── */
+    .add-section { background: rgba(13,27,62,.3); }
+    .add-box {
+      border: 1px dashed rgba(59,130,246,.4);
+      border-radius: 12px; padding: 2.5rem;
+      max-width: 740px;
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: .4rem; }
+    .form-group label { font-size: .8rem; color: var(--ice); font-weight: 500; letter-spacing: .05em; }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      background: rgba(10,15,30,.7); border: 1px solid var(--border);
+      border-radius: 6px; color: var(--white); padding: .7rem 1rem;
+      font-family: 'Space Grotesk', sans-serif; font-size: .9rem;
+      outline: none; transition: border-color .2s;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus { border-color: var(--sky); }
+    .form-group select option { background: var(--deep); }
+    .form-group textarea { resize: vertical; min-height: 90px; }
+    .form-footer { margin-top: 1.2rem; display: flex; gap: 1rem; }
+    .btn-submit {
+      padding: .7rem 1.8rem; background: var(--royal); color: var(--white);
+      border: none; border-radius: 6px; font-weight: 600; font-size: .9rem;
+      cursor: pointer; transition: background .2s; font-family: inherit;
+    }
+    .btn-submit:hover { background: var(--sky); }
+    .btn-clear {
+      padding: .7rem 1.2rem; background: transparent; color: var(--ghost);
+      border: 1px solid var(--border); border-radius: 6px;
+      font-size: .9rem; cursor: pointer; font-family: inherit; transition: border-color .2s;
+    }
+    .btn-clear:hover { border-color: var(--sky); color: var(--sky); }
+
+    /* added cards area */
+    #added-cards { margin-top: 2rem; display: flex; flex-direction: column; gap: 1rem; }
+    .added-card {
+      background: rgba(26,58,143,.15); border: 1px solid rgba(59,130,246,.25);
+      border-radius: 8px; padding: 1.2rem 1.5rem;
+      display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;
+    }
+    .added-card-content {}
+    .added-card-title { font-weight: 600; color: var(--ice); margin-bottom: .3rem; }
+    .added-card-text { font-size: .87rem; color: var(--ghost); }
+    .remove-btn {
+      background: none; border: none; color: rgba(147,197,253,.4);
+      cursor: pointer; font-size: 1.1rem; flex-shrink: 0;
+      transition: color .2s; margin-top: .1rem;
+    }
+    .remove-btn:hover { color: var(--sky); }
+
+    /* ── MITOS ── */
+    .myth-list { margin-top: 2rem; display: flex; flex-direction: column; gap: 1.2rem; max-width: 760px; }
+    .myth-item {
+      display: grid; grid-template-columns: auto 1fr;
+      gap: 1rem; align-items: flex-start;
+      padding: 1.2rem 1.5rem;
+      background: rgba(13,27,62,.4); border: 1px solid var(--border); border-radius: 8px;
+    }
+    .myth-icon { font-size: 1.3rem; margin-top: .1rem; }
+    .myth-q { font-weight: 600; color: var(--ice); margin-bottom: .35rem; font-size: .95rem; }
+    .myth-a { font-size: .88rem; color: var(--ghost); line-height: 1.75; }
+
+    /* ── ÉTICA ── */
+    .ethics-section { background: rgba(5,8,15,.7); }
+    .ethics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem; }
+    .eth-card {
+      padding: 1.8rem; border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+    .eth-card.concern { background: rgba(59,130,246,.05); border-color: rgba(59,130,246,.25); }
+    .eth-card.hope { background: rgba(26,58,143,.12); border-color: rgba(59,130,246,.2); }
+    .eth-label { font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; font-weight: 600; margin-bottom: .9rem; }
+    .eth-card.concern .eth-label { color: #f87171; }
+    .eth-card.hope .eth-label { color: #34d399; }
+    .eth-list { list-style: none; display: flex; flex-direction: column; gap: .55rem; }
+    .eth-list li { font-size: .9rem; color: var(--ghost); padding-left: 1.1rem; position: relative; }
+    .eth-list li::before { content: '—'; position: absolute; left: 0; color: var(--sky); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--deep); border-top: 1px solid var(--border);
+      padding: 3rem 6vw 2rem;
+      display: flex; justify-content: space-between; align-items: flex-start;
+      flex-wrap: wrap; gap: 2rem;
+    }
+    .footer-brand { max-width: 300px; }
+    .footer-logo { font-size: .9rem; font-weight: 600; color: var(--ice); letter-spacing: .08em; text-transform: uppercase; margin-bottom: .6rem; }
+    .footer-desc { font-size: .82rem; color: var(--ghost); line-height: 1.75; }
+    .footer-col h4 { font-size: .8rem; letter-spacing: .1em; text-transform: uppercase; color: var(--sky); margin-bottom: .8rem; }
+    .footer-col a { display: block; color: var(--ghost); text-decoration: none; font-size: .85rem; margin-bottom: .4rem; transition: color .2s; }
+    .footer-col a:hover { color: var(--sky); }
+    .footer-bottom { border-top: 1px solid var(--border); padding-top: 1.5rem; margin-top: 1.5rem; text-align: center; font-size: .78rem; color: rgba(219,234,254,.4); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 760px) {
+      .what-grid, .ethics-grid { grid-template-columns: 1fr; }
+      .brain-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .brain-deco { display: none; }
+      footer { flex-direction: column; }
+    }
+
+    /* pulse animation on dots */
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 6px var(--sky); }
+      50%       { box-shadow: 0 0 18px var(--sky), 0 0 30px rgba(59,130,246,.4); }
+    }
+    .tl-dot { animation: pulse-glow 2.5s ease-in-out infinite; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Neurocriminologia</div>
+  <div class="nav-links">
+    <a href="#oque">O que é</a>
+    <a href="#cerebro">O Cérebro</a>
+    <a href="#historia">História</a>
+    <a href="#exemplos">Exemplos</a>
+    <a href="#etica">Ética</a>
+  </div>
+  <div class="nav-credit">by <span>VGA.script</span></div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <!-- decorative brain SVG -->
+  <svg class="brain-deco" viewBox="0 0 400 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="200" cy="190" rx="190" ry="170" stroke="#3b82f6" stroke-width="1.2"/>
+    <path d="M100 120 Q150 80 200 110 Q250 80 300 120" stroke="#60a5fa" stroke-width="1" fill="none"/>
+    <path d="M80 160 Q130 130 180 155 Q220 130 270 155 Q310 140 340 160" stroke="#60a5fa" stroke-width="1" fill="none"/>
+    <path d="M70 200 Q120 175 170 195 Q210 175 255 195 Q300 175 350 200" stroke="#3b82f6" stroke-width="1" fill="none"/>
+    <path d="M80 240 Q130 220 180 238 Q220 218 270 238 Q310 225 340 240" stroke="#60a5fa" stroke-width="1" fill="none"/>
+    <path d="M100 275 Q150 260 200 272 Q250 257 300 272" stroke="#3b82f6" stroke-width="1" fill="none"/>
+    <line x1="200" y1="20" x2="200" y2="360" stroke="#1a3a8f" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <circle cx="200" cy="190" r="4" fill="#60a5fa"/>
+    <circle cx="140" cy="155" r="3" fill="#3b82f6" opacity=".7"/>
+    <circle cx="260" cy="155" r="3" fill="#3b82f6" opacity=".7"/>
+    <circle cx="120" cy="220" r="2.5" fill="#60a5fa" opacity=".5"/>
+    <circle cx="280" cy="220" r="2.5" fill="#60a5fa" opacity=".5"/>
+    <circle cx="170" cy="240" r="2" fill="#93c5fd" opacity=".6"/>
+    <circle cx="230" cy="240" r="2" fill="#93c5fd" opacity=".6"/>
+  </svg>
+
+  <p class="hero-eyebrow">Apresentação Escolar · Neurociência &amp; Direito</p>
+  <h1 class="hero-title">O que o <em>cérebro</em> tem a ver com o crime?</h1>
+  <p class="hero-sub">A <strong>neurocriminologia</strong> investiga como a estrutura e o funcionamento do cérebro influenciam o comportamento criminoso — sem ignorar o papel da sociedade, da família e da história de vida de cada pessoa.</p>
+  <div class="hero-cta">
+    <a href="#oque" class="btn btn-primary">Explorar o tema</a>
+    <a href="#exemplos" class="btn btn-ghost">Ver exemplos</a>
+  </div>
+  <div class="stat-strip">
+    <div class="stat"><span class="stat-num">1990s</span><span class="stat-label">Surgimento da área</span></div>
+    <div class="stat"><span class="stat-num">+40</span><span class="stat-label">Anos de estudos de neuroimagem</span></div>
+    <div class="stat"><span class="stat-num">3</span><span class="stat-label">Áreas unidas: neuro, psico e direito</span></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- O QUE É -->
+<section id="oque">
+  <p class="section-tag">Definição</p>
+  <h2>O que é a <span>Neurocriminologia</span>?</h2>
+  <p class="lead">É uma área de pesquisa que mistura neurociência, psicologia e criminologia para entender por que algumas pessoas cometem crimes. A ideia central é simples: o cérebro controla tudo o que fazemos, então problemas no cérebro podem afetar o comportamento — inclusive o comportamento criminoso.</p>
+  <div class="what-grid">
+    <div class="what-card">
+      <div class="card-icon">🧠</div>
+      <div class="card-title">Neurociência</div>
+      <div class="card-text">Estuda como o cérebro funciona: suas regiões, circuitos e como eles controlam emoções, decisões e impulsos.</div>
+    </div>
+    <div class="what-card">
+      <div class="card-icon">🔍</div>
+      <div class="card-title">Criminologia</div>
+      <div class="card-text">Investiga por que as pessoas cometem crimes e como a sociedade pode preveni-los e lidar com eles.</div>
+    </div>
+    <div class="what-card">
+      <div class="card-icon">⚖️</div>
+      <div class="card-title">Direito e Justiça</div>
+      <div class="card-text">Aplica esses conhecimentos para ajudar juízes, psicólogos e legisladores a tomar decisões mais justas e embasadas.</div>
+    </div>
+    <div class="what-card">
+      <div class="card-icon">🧬</div>
+      <div class="card-title">Genética e Ambiente</div>
+      <div class="card-text">Analisa como genes e experiências de vida (trauma, abuso, pobreza) se combinam e moldam o comportamento.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CÉREBRO -->
+<section id="cerebro" class="brain-section">
+  <p class="section-tag">Como funciona</p>
+  <h2>As partes do cérebro <span>mais estudadas</span></h2>
+  <p class="lead">Pesquisadores descobriram que certas regiões do cérebro aparecem com frequência nos estudos sobre comportamento agressivo e antissocial. Veja as principais:</p>
+  <div class="brain-grid">
+    <div class="brain-part">
+      <div class="bp-label">Região 01</div>
+      <div class="bp-name">Córtex Pré-frontal</div>
+      <div class="bp-text">É o "freio" do cérebro. Controla impulsos, planejamento e tomada de decisão. Quando está menos ativo ou danificado, a pessoa tem mais dificuldade em controlar raiva e agir impulsivamente. Em estudos com criminosos violentos, essa área frequentemente aparece com atividade reduzida.</div>
+    </div>
+    <div class="brain-part">
+      <div class="bp-label">Região 02</div>
+      <div class="bp-name">Amígdala</div>
+      <div class="bp-text">É o centro do medo e das emoções. Ela nos ajuda a sentir empatia e a reconhecer o sofrimento dos outros. Pesquisas mostram que assassinos e psicopatas muitas vezes têm uma amígdala menor ou menos ativa, o que pode reduzir a capacidade de sentir culpa ou empatia.</div>
+    </div>
+    <div class="brain-part">
+      <div class="bp-label">Região 03</div>
+      <div class="bp-name">Sistema Límbico</div>
+      <div class="bp-text">Regula emoções e memórias afetivas. Um sistema límbico hiperativo pode deixar a pessoa muito reativa emocionalmente, reagindo de forma exagerada a situações de estresse ou ameaça percebida.</div>
+    </div>
+    <div class="brain-part">
+      <div class="bp-label">Região 04</div>
+      <div class="bp-name">Hipocampo</div>
+      <div class="bp-text">Ligado à memória e ao aprendizado. Pessoas expostas a traumas na infância podem ter o hipocampo menor, o que afeta como elas lidam com situações de perigo e tomam decisões futuras.</div>
+    </div>
+    <div class="brain-part">
+      <div class="bp-label">Circuito</div>
+      <div class="bp-name">Dopamina e Serotonina</div>
+      <div class="bp-text">São substâncias químicas do cérebro que controlam humor, prazer e impulsos. Desequilíbrios nesses sistemas químicos estão associados a comportamentos impulsivos, agressivos e dependência de drogas.</div>
+    </div>
+    <div class="brain-part">
+      <div class="bp-label">Importante</div>
+      <div class="bp-name">Genes + Ambiente</div>
+      <div class="bp-text">Nenhuma parte do cérebro age sozinha. Traumas na infância, pobreza, violência doméstica e abuso de substâncias modificam o cérebro de formas profundas. Não existe "gene do crime" — o que existe é uma combinação de fatores biológicos e sociais.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- HISTÓRIA -->
+<section id="historia">
+  <p class="section-tag">Linha do tempo</p>
+  <h2>Como essa ciência <span>evoluiu</span></h2>
+  <p class="lead">A ideia de ligar o cérebro ao crime não é nova — mas a ciência por trás dela ficou muito mais sólida nos últimos 40 anos.</p>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-year">1848</div>
+      <div class="tl-title">O caso Phineas Gage</div>
+      <div class="tl-text">Um trabalhador americano sobrevive a um acidente em que uma barra de ferro atravessa seu crânio. Ele sobrevive, mas sua personalidade muda completamente — de calmo e responsável para impulsivo e agressivo. Esse caso mostra pela primeira vez que danos no cérebro alteram o comportamento.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-year">1960–70s</div>
+      <div class="tl-title">Primeiros estudos de comportamento antissocial</div>
+      <div class="tl-text">Pesquisadores começam a estudar se certos padrões cerebrais aparecem em pessoas com histórico de violência. Os estudos ainda eram limitados pelas tecnologias disponíveis.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-year">1986</div>
+      <div class="tl-title">Surgimento do gene MAOA</div>
+      <div class="tl-text">Pesquisadores identificam variações no gene MAOA, apelidado pela mídia de "gene guerreiro", que está ligado à regulação de substâncias químicas no cérebro. Mais tarde, ficou claro que o gene sozinho não causa violência — ele interage com o ambiente, especialmente traumas na infância.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-year">1994</div>
+      <div class="tl-title">Estudo de Adrian Raine com assassinos</div>
+      <div class="tl-text">O pesquisador Adrian Raine usa tomografia (PET scan) para comparar os cérebros de assassinos condenados com pessoas sem histórico criminal. Resultado: o córtex pré-frontal dos assassinos mostrava atividade significativamente menor — a área do autocontrole.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-year">2000s</div>
+      <div class="tl-title">Neuroimagem e psicopatia</div>
+      <div class="tl-text">Exames de ressonância magnética (MRI) passam a ser usados amplamente. Estudos com psicopatas confirmam diferenças na amígdala e nas conexões entre as áreas emocionais e racionais do cérebro.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-year">Hoje</div>
+      <div class="tl-title">Neurologia nos tribunais</div>
+      <div class="tl-text">Evidências neurológicas já são apresentadas em julgamentos nos EUA, Europa e em outros países para discutir responsabilidade penal, especialmente em casos de adolescentes, pessoas com lesões cerebrais ou transtornos severos. O debate ético sobre isso ainda está em aberto.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EXEMPLOS -->
+<section id="exemplos" class="examples-section">
+  <p class="section-tag">Casos &amp; Estudos</p>
+  <h2>Exemplos reais e <span>estudos de caso</span></h2>
+  <p class="lead">Esses casos ajudam a entender como a neurociência é aplicada para explicar comportamentos criminosos — sem absolver ninguém, mas aprofundando a compreensão.</p>
+  <div class="cases-grid">
+
+    <div class="case-card">
+      <div class="case-header">
+        <span class="case-badge badge-real">Caso Real</span>
+        <span class="case-name">Charles Whitman (1966)</span>
+      </div>
+      <div class="case-body">
+        <div class="case-question">O que aconteceu?</div>
+        <div class="case-text">Em 1966, Whitman atirou em dezenas de pessoas na Universidade do Texas (EUA), matando 16. Antes de morrer, deixou uma carta pedindo que fizessem uma autópsia em seu cérebro. Os médicos encontraram um tumor pressionando a amígdala, região ligada ao controle de impulsos e emoções.</div>
+        <div class="case-finding">🔬 Achado: O tumor pode ter contribuído para o comportamento violento, mas especialistas ainda debatem se ele foi a causa ou apenas um fator.</div>
+      </div>
+    </div>
+
+    <div class="case-card">
+      <div class="case-header">
+        <span class="case-badge badge-estudo">Estudo Científico</span>
+        <span class="case-name">Estudo de Raine (1994)</span>
+      </div>
+      <div class="case-body">
+        <div class="case-question">O que foi investigado?</div>
+        <div class="case-text">O neurocientista Adrian Raine comparou os cérebros de 41 assassinos com um grupo de pessoas sem histórico de violência usando tomografia (PET scan). Os assassinos mostravam atividade reduzida no córtex pré-frontal — a área responsável pelo autocontrole e tomada de decisão.</div>
+        <div class="case-finding">🔬 Achado: Diferenças cerebrais foram encontradas, mas Raine alerta que biologia não é destino — ambiente e história de vida são igualmente importantes.</div>
+      </div>
+    </div>
+
+    <div class="case-card">
+      <div class="case-header">
+        <span class="case-badge badge-estudo">Estudo Científico</span>
+        <span class="case-name">James Fallon — o neurocientista psicopata</span>
+      </div>
+      <div class="case-body">
+        <div class="case-question">O que aconteceu?</div>
+        <div class="case-text">O neurocientista James Fallon descobriu, durante uma pesquisa sobre Alzheimer, que seu próprio cérebro tinha o mesmo padrão de um psicopata — com baixa atividade na região pré-frontal. Ele tem genes associados à agressividade, mas nunca cometeu crimes.</div>
+        <div class="case-finding">🔬 Achado: Fallon cresceu em um ambiente amoroso e estável. Isso sugere que o ambiente pode proteger alguém mesmo quando há fatores biológicos de risco.</div>
+      </div>
+    </div>
+
+    <div class="case-card">
+      <div class="case-header">
+        <span class="case-badge badge-real">Caso Real</span>
+        <span class="case-name">Adolescentes e o cérebro imaturo</span>
+      </div>
+      <div class="case-body">
+        <div class="case-question">Por que adolescentes tomam decisões ruins?</div>
+        <div class="case-text">O córtex pré-frontal — área do julgamento e controle de impulsos — só termina de se desenvolver por volta dos 25 anos. Isso explica por que adolescentes são mais impulsivos e suscetíveis à pressão dos colegas. Em 2005, a Suprema Corte dos EUA usou esse argumento para abolir a pena de morte para menores de 18 anos.</div>
+        <div class="case-finding">🔬 Achado: A lei passou a considerar a imaturidade cerebral como fator atenuante para crimes cometidos por jovens.</div>
+      </div>
+    </div>
+
+    <div class="case-card">
+      <div class="case-header">
+        <span class="case-badge badge-estudo">Estudo Científico</span>
+        <span class="case-name">Trauma na infância e o cérebro</span>
+      </div>
+      <div class="case-body">
+        <div class="case-question">O que o trauma faz ao cérebro?</div>
+        <div class="case-text">Crianças expostas a abuso, negligência ou violência doméstica desenvolvem um hipocampo menor e uma amígdala mais reativa. Isso as torna mais propensas a reagir com agressividade em situações de estresse, pois o cérebro aprendeu a tratar o mundo como um lugar constantemente perigoso.</div>
+        <div class="case-finding">🔬 Achado: O trauma não é desculpa, mas é uma explicação importante. Programas de intervenção precoce podem reverter parte desses efeitos.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ADICIONAR EXEMPLO -->
+<section id="adicionar" class="add-section">
+  <p class="section-tag">Interativo</p>
+  <h2>Adicionar seu <span>próprio exemplo</span></h2>
+  <p class="lead">Pesquisou um caso diferente ou quer contextualizar melhor o tema? Adicione aqui para enriquecer a apresentação.</p>
+
+  <div class="add-box">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="ex-nome">Nome do caso / estudo</label>
+        <input type="text" id="ex-nome" placeholder="Ex: Caso Phineas Gage"/>
+      </div>
+      <div class="form-group">
+        <label for="ex-tipo">Tipo</label>
+        <select id="ex-tipo">
+          <option value="Caso Real">Caso Real</option>
+          <option value="Estudo Científico">Estudo Científico</option>
+          <option value="Debate Ético">Debate Ético</option>
+          <option value="Contexto Brasileiro">Contexto Brasileiro</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group" style="margin-bottom:1rem">
+      <label for="ex-desc">Descrição do caso</label>
+      <textarea id="ex-desc" placeholder="Explique o que aconteceu, quem estudou, quais foram as descobertas..."></textarea>
+    </div>
+    <div class="form-group">
+      <label for="ex-achado">Conclusão ou achado principal (opcional)</label>
+      <input type="text" id="ex-achado" placeholder="Ex: Estudo mostrou redução na atividade pré-frontal..."/>
+    </div>
+    <div class="form-footer">
+      <button class="btn-submit" onclick="adicionarExemplo()">Adicionar exemplo</button>
+      <button class="btn-clear" onclick="limparForm()">Limpar</button>
+    </div>
+  </div>
+
+  <div id="added-cards"></div>
+</section>
+
+<div class="divider"></div>
+
+<!-- MITOS -->
+<section id="mitos">
+  <p class="section-tag">Esclarecimentos</p>
+  <h2>O que a neurocriminologia <span>não diz</span></h2>
+  <p class="lead">Existem muitos mal-entendidos sobre essa área. Veja os mais comuns:</p>
+  <div class="myth-list">
+    <div class="myth-item">
+      <div class="myth-icon">❌</div>
+      <div>
+        <div class="myth-q">"O cérebro determina se a pessoa vai ser criminosa"</div>
+        <div class="myth-a">Falso. O cérebro influencia o comportamento, mas não o determina. A maioria das pessoas com características cerebrais "de risco" nunca comete crimes. Ambiente, relações familiares e oportunidades de vida importam tanto quanto a biologia.</div>
+      </div>
+    </div>
+    <div class="myth-item">
+      <div class="myth-icon">❌</div>
+      <div>
+        <div class="myth-q">"Quem tem um cérebro diferente não pode ser responsabilizado"</div>
+        <div class="myth-a">Não é assim. A neurociência pode informar graus de responsabilidade, mas não eliminar a responsabilidade em si. O Direito considera muitos fatores além da biologia.</div>
+      </div>
+    </div>
+    <div class="myth-item">
+      <div class="myth-icon">❌</div>
+      <div>
+        <div class="myth-q">"Existe um gene do crime"</div>
+        <div class="myth-a">Não existe. Alguns genes podem aumentar a vulnerabilidade a comportamentos impulsivos, mas isso só se manifesta em combinação com condições ambientais específicas, como abuso ou extrema pobreza.</div>
+      </div>
+    </div>
+    <div class="myth-item">
+      <div class="myth-icon">❌</div>
+      <div>
+        <div class="myth-q">"Dá pra prever quem vai cometer um crime pelo exame do cérebro"</div>
+        <div class="myth-a">Absolutamente não. A neurociência trabalha com probabilidades em grupos, não com certezas sobre indivíduos. Usar exames para "prever criminosos" seria tanto cientificamente inválido quanto eticamente inaceitável.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ÉTICA -->
+<section id="etica" class="ethics-section">
+  <p class="section-tag">Discussão</p>
+  <h2>Ética: os dois lados do <span>debate</span></h2>
+  <p class="lead">A neurocriminologia abre portas importantes, mas também levanta questões sérias que a sociedade precisa debater.</p>
+  <div class="ethics-grid">
+    <div class="eth-card concern">
+      <div class="eth-label">⚠️ Preocupações</div>
+      <ul class="eth-list">
+        <li>Risco de usar biologia como desculpa para comportamentos criminosos</li>
+        <li>Possibilidade de discriminação com base em características cerebrais</li>
+        <li>Quem teria acesso a esses dados e como seriam usados?</li>
+        <li>Perigo de criar uma "classe de suspeitos em potencial" com base em exames</li>
+        <li>Determinismo biológico pode ignorar fatores sociais e econômicos</li>
+      </ul>
+    </div>
+    <div class="eth-card hope">
+      <div class="eth-label">✅ Potenciais Benefícios</div>
+      <ul class="eth-list">
+        <li>Tratamentos mais eficazes para pessoas com transtornos que levam à violência</li>
+        <li>Intervenções precoces em crianças expostas a traumas</li>
+        <li>Penas mais adequadas ao perfil neurológico do réu</li>
+        <li>Redução da reincidência com abordagens baseadas em evidências</li>
+        <li>Melhor compreensão de transtornos como psicopatia e antissocialidade</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">
+    <div class="footer-logo">Neurocriminologia</div>
+    <div class="footer-desc">Material de apresentação escolar sobre a interface entre neurociência, psicologia e criminologia. Todas as informações são baseadas em pesquisas científicas publicadas.</div>
+  </div>
+  <div class="footer-col">
+    <h4>Navegar</h4>
+    <a href="#oque">O que é</a>
+    <a href="#cerebro">O Cérebro</a>
+    <a href="#historia">História</a>
+    <a href="#exemplos">Exemplos</a>
+    <a href="#etica">Ética</a>
+  </div>
+  <div class="footer-col">
+    <h4>Referências</h4>
+    <a href="#">Raine, A. (1993) — The Psychopathology of Crime</a>
+    <a href="#">Fallon, J. (2013) — The Psychopath Inside</a>
+    <a href="#">Moffitt, T. E. — Developmental Criminology</a>
+  </div>
+  <div class="footer-bottom" style="width:100%">
+    Produzido para fins educacionais · Neurocriminologia · 2025
+  </div>
+</footer>
+
+<script>
+  // Add example functionality
+  function adicionarExemplo() {
+    const nome   = document.getElementById('ex-nome').value.trim();
+    const tipo   = document.getElementById('ex-tipo').value;
+    const desc   = document.getElementById('ex-desc').value.trim();
+    const achado = document.getElementById('ex-achado').value.trim();
+
+    if (!nome || !desc) {
+      alert('Por favor, preencha pelo menos o nome e a descrição do caso.');
+      return;
+    }
+
+    const container = document.getElementById('added-cards');
+    const card = document.createElement('div');
+    card.className = 'added-card';
+    card.innerHTML = `
+      <div class="added-card-content">
+        <div class="added-card-title">[${tipo}] ${nome}</div>
+        <div class="added-card-text">${desc}${achado ? '<br><br><strong style="color:var(--ice)">Achado:</strong> ' + achado : ''}</div>
+      </div>
+      <button class="remove-btn" onclick="this.parentElement.remove()" title="Remover">✕</button>
+    `;
+    container.prepend(card);
+    limparForm();
+  }
+
+  function limparForm() {
+    document.getElementById('ex-nome').value = '';
+    document.getElementById('ex-desc').value = '';
+    document.getElementById('ex-achado').value = '';
+    document.getElementById('ex-tipo').selectedIndex = 0;
+  }
+
+  // Smooth active nav highlight on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 120) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--sky)' : '';
+    });
+  });
+</script>
+</body>
+</html>
